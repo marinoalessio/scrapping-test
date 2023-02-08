@@ -16,6 +16,11 @@
 ## Step 4 - GitHub
 - Push the code in this GitHub repository
 
+## Step 5 - Optional
+- Display to the user also the boat's Equipment which is located in the page when you click on the boat's card
+- For example : https://www.clickandboat.com/en/boat-rental/ibiza/catamaran/aventura-37-vq2d22b should contain : Watermaker, Air Conditioning, Outboard, Fridge, Microwave, Generator
+
 ## Notes
+- Take as much time as you need 
 - Please comment the code :) 
 - Don't forget to name the variables clearly 
