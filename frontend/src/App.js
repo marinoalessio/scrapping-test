@@ -1,24 +1,48 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Navbar, Row, Col, Spinner } from 'react-bootstrap';
+import { useState } from 'react';
 import './App.css';
+import { Searchbar, BoatsList } from './Components';
 
 function App() {
+
+  const [boatsList, setBoatsList] = useState([]);
+  const [loadingList, setLoadingList] = useState(false);
+  console.log(boatsList)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BoatsNavbar />
+      <Container >
+        <Row className="justify-content-md-center mt-4">
+          <Col lg={6}>
+            <Searchbar setBoatsList={setBoatsList} setLoadingList={setLoadingList} />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center mt-4">
+          <Col lg={6}>
+
+            {loadingList ?
+              <Spinner animation="border" /> :
+              <BoatsList boatsList={boatsList} loadingList={loadingList} />
+            }
+          </Col>
+
+        </Row>
+
+      </Container>
+    </>
+  );
+}
+
+function BoatsNavbar() {
+  return (
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="#home">Boats Scraper</Navbar.Brand>
+
+      </Container>
+    </Navbar>
   );
 }
 
