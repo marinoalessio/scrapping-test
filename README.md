@@ -17,9 +17,14 @@
 - Push the code in this GitHub repository
 
 So far, the result of the front end application is the following
+
 ![img](Screenshot.png)
 
 ## Step 5 - Optional
+
+To develop this step I planned to create a key attribute with the link to the single boat, on each element of the list (it's common with React components).
+The click on the row will execute a re-scraping of the elements on the boat page through a useEffect function.
+
 - Display to the user also the boat's Equipment which is located in the page when you click on the boat's card
 - For example : https://www.clickandboat.com/en/boat-rental/ibiza/catamaran/aventura-37-vq2d22b should contain : Watermaker, Air Conditioning, Outboard, Fridge, Microwave, Generator
 
