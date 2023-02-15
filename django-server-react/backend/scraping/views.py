@@ -9,8 +9,8 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import re
 from bs4 import BeautifulSoup
+
 
 class BoatView(viewsets.ModelViewSet):
     serializer_class = BoatSerializer
@@ -28,35 +28,47 @@ def scraping_clickandboat(city):
     options.add_argument("--dns-prefetch-disable")
     options.add_argument("--disable-gpu")
     driver = webdriver.Chrome('chromedriver', options = options)
-
     root = "https://www.clickandboat.com/en/"
     url = root + 'boat-rental/search?where=' + city + " &DateDebut=2023-02-15&DateFin=2023-02-17&ProduitTypeId=Sailboat"
     url = url.replace(' ', '%20') # it may contain spaces in city
 
     driver.get(url)
-    html = driver.page_source
-    soup = BeautifulSoup(html, "html.parser")
-    # print(soup.prettify())
 
-    # things to do: get the container, get info for each boat, test click for next page until 3 pages
+    num_pages = 3 # pages you want to scrape
+    boats = [] # list of dicts
 
-    return None # boats_list
+    for page in range(num_pages):
+        
+        container_results = driver.find_element(By.XPATH, "//div[@class='searchPage__products']")
+        results = container_results.find_elements(By.XPATH, ".//app-search-product[@class='searchPage__productAd']")
+        
+        for i in results:
+            try:
+                link = i.find_element(By.XPATH, "//a").get_attribute("href") # for now it's temporary
+                title = i.find_element(By.XPATH, ".//span[@class='dsCardDescription__title--ellipsed']").text
+                price = i.find_element(By.XPATH, ".//h4[@class='dsCardDescription__subtitle']").text
+                boats.append({"link":link,"title":title,"price":price}) # add to the list of dicts
+            except:
+                pass
+            
+        try:
+            driver.implicitly_wait(3)
+            next_button = driver.find_element(By.XPATH, "//li[@class='pagination__item--next']/a")
+            next_button.click() # this clicks the button to pass on the other page
+        except:
+            break # if it doesn't exist, quit the scraping
+    
+    return boats 
 
 def search_by_city(request, parameter):
-    status = "success"
-    error = None
+    status = "success" # to use if errors, it needs updates
+    error = None # for future development with the use of errors
     
     boats_list = scraping_clickandboat(parameter)
 
     data = {
         "status": status,
-        "boats": [
-            {
-                "link": "https://blabla",
-                "title": parameter,
-                "price": "123€",
-            },
-        ],
+        "boats": boats_list,
         "error": error
     }
 

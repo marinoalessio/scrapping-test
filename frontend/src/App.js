@@ -8,7 +8,8 @@ function App() {
 
   const [boatsList, setBoatsList] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
-  console.log(boatsList)
+  
+  // here if query is not empty, and not loading, show if there is no result
 
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
         </Row>
         <Row className="justify-content-md-center mt-4">
           <Col lg={6}>
+
 
             {loadingList ?
               <Spinner animation="border" /> :

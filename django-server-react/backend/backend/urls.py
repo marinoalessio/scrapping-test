@@ -23,7 +23,7 @@ router.register(r'boats', views.BoatView, 'boat')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include(router.urls)), # this is the link to manage the boats in the db
     path('api/city/<str:parameter>', views.search_by_city),
 ]
 
